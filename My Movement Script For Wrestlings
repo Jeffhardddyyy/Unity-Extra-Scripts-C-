@@ -1,0 +1,209 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MovementScript : MonoBehaviour
+{
+
+/*
+I am using this for my game "Wrestlings" I will update you guys when it is released and any extra information, 
+However, I am open about it so message me if you want to know more. Or you can look at a video I have made on it :
+https://www.youtube.com/watch?v=QszrEvDRE84
+Enjoy!
+*/
+
+    //declaring headers & variables.
+
+    [Header("Left Arm")]
+    public Transform LeftArm;
+    public Vector3 LeftArmPositiveRotation;
+    public Vector3 LeftArmNegativeRotation;
+
+    [Header("Left Foot")]
+    public Transform LeftFoot;
+    public Vector3 LeftFootPositiveRotation;
+    public Vector3 LeftFootNegativeRotation;
+
+    [Header("Left Leg")]
+    public Transform LeftLeg;
+    public Vector3 LeftLegPositiveRotation;
+    public Vector3 LeftLegNegativeRotation;
+
+    [Header("Right Arm")]
+    public Transform RightArm;
+    private Vector3 RightPositiveArmRotation;
+    private Vector3 RightNegativeArmRotation;
+
+    [Header("Right Leg")]
+    public Transform RightLeg;
+    private Vector3 RightLegPositiveRotation;
+    private Vector3 RightLegNegativeRotation;
+
+
+
+    [Header("Right Foot")]
+    public Transform RightFoot;
+    private Vector3 RightFootPositiveRotation;
+    private Vector3 RightFootNegativeRotation;
+
+    [Header("Extras")]
+    public Quaternion FootPositiveRotation;
+
+    //voids
+
+    private void Start()
+    {//declaring
+        RightPositiveArmRotation = LeftArmPositiveRotation;
+        RightPositiveArmRotation = LeftArmNegativeRotation;
+
+        RightLegPositiveRotation = LeftLegPositiveRotation;
+        RightLegNegativeRotation = LeftLegNegativeRotation;
+
+        RightFootPositiveRotation = LeftFootPositiveRotation;
+        RightFootPositiveRotation = LeftFootPositiveRotation;
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        // left arm
+        if (Input.GetKey(KeyCode.J))
+        {
+            StartCoroutine("ResettingLeftArm");
+
+            LeftArm.transform.Rotate(LeftArmPositiveRotation);
+
+        }
+        else if (Input.GetKey(KeyCode.U))
+        {
+            StartCoroutine("ResettingLeftArm");
+            LeftArm.transform.Rotate(LeftArmNegativeRotation);
+
+        }
+
+
+        // right arm
+        if (Input.GetKey(KeyCode.F))
+        {
+            StartCoroutine("ResettingRightArm");
+
+            RightArm.transform.Rotate(RightPositiveArmRotation);
+
+        }
+        else if (Input.GetKey(KeyCode.R))
+        {
+            StartCoroutine("ResettingRightArm");
+
+            RightArm.transform.Rotate(RightNegativeArmRotation);
+
+        }
+
+
+        //left leg
+        if (Input.GetKey(KeyCode.I))
+        {
+            StartCoroutine("ResettingLeftLeg");
+
+            LeftLeg.transform.Rotate(LeftLegPositiveRotation);
+            LeftFoot.transform.Rotate(RightFootPositiveRotation);
+
+        }
+        else if (Input.GetKey(KeyCode.O))
+        {
+            StartCoroutine("ResettingLeftLeg");
+
+            LeftLeg.transform.Rotate(LeftLegNegativeRotation);
+            LeftFoot.transform.Rotate(RightFootPositiveRotation);
+
+
+        }
+
+        //right leg
+        if (Input.GetKey(KeyCode.L))
+        {
+            StartCoroutine("ResettingRightLeg");
+
+            RightLeg.transform.Rotate(RightLegPositiveRotation);
+            RightFoot.transform.Rotate(RightFootPositiveRotation);
+        }
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            StartCoroutine("ResettingRightLeg");
+
+            RightLeg.transform.Rotate(RightLegNegativeRotation);
+            RightFoot.transform.Rotate(RightFootNegativeRotation);
+
+        }
+    }
+    IEnumerator ResettingLeftArm()
+    {           //starting function         
+        yield return new WaitForSeconds(3);         // Wait 3 seconds
+        if (LeftArm.transform.rotation.eulerAngles.x != -174.7f)    //If x isn't 174.7
+        {
+            if (LeftArm.transform.rotation.eulerAngles.y != 95.071f)    //If y isn't 95.071
+            {
+                if (LeftArm.transform.rotation.eulerAngles.z != 94.99999f) //If z isn't 94.99999
+                {
+                    LeftArm.transform.rotation = new Quaternion(-174.7f, 95.071f, 94.99999f, 0.7202420f); // Then make it that, with a width of 0.7202420
+                    StopCoroutine("ResettingLeftArm");          //Stop function. (Because it came to my conclusion that it's gonna freeze up every 3 seconds
+                }
+            }
+        }
+    }
+
+    IEnumerator ResettingRightArm()
+    {
+        yield return new WaitForSeconds(3);
+        if (RightArm.transform.rotation.eulerAngles.x != -166.969f)
+        {
+            if (RightArm.transform.rotation.eulerAngles.y != 132.84f)
+            {
+                if (RightArm.transform.rotation.eulerAngles.z != 90.508f)
+                {
+                    RightArm.transform.rotation = new Quaternion(-166.969f, 132.84f, 90.508f, -0.7214504f);
+                    StopCoroutine("ResettingRightArm");
+                }
+            }
+        }
+    }
+    IEnumerator ResettingLeftLeg()
+    {
+        yield return new WaitForSeconds(3); //Instead of "2" you can put the amount of seconds you want it to be.
+
+        if (LeftLeg.transform.rotation.eulerAngles.x != 90)
+        {
+            if (LeftLeg.transform.rotation.eulerAngles.y != 0)
+            {
+                if (LeftLeg.transform.rotation.eulerAngles.z != 0)
+                {
+                    LeftLeg.transform.rotation = new Quaternion(0, 90, 90, -7.610334E-05f);
+                    LeftFoot.transform.rotation = new Quaternion(0.9911383f, -0.01260311f, 0.115935f, 0.9911383f);
+                    StopCoroutine("ResettingLeftLeg");
+                }
+            }
+        }
+    }
+
+    IEnumerator ResettingRightLeg()
+
+    {
+        {
+            yield return new WaitForSeconds(3);
+            if (RightLeg.transform.rotation.eulerAngles.x != 90)
+            {
+                if (RightLeg.transform.rotation.eulerAngles.y != 0)
+                {
+                    if (RightLeg.transform.rotation.eulerAngles.z != 0)
+                    {
+                        RightLeg.transform.rotation = new Quaternion(0, 90, 90, -7.610334E-05f);
+                        RightFoot.transform.rotation = new Quaternion(0.9911383f, -0.01260311f, 0.115935f, 0.9911383f);
+                        StopCoroutine("ResettingRightLeg");
+                    }
+                }
+            }
+        }
+    }
+}
