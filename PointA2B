@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CameraMovement : MonoBehaviour
+{
+
+    /// <summary>
+    /// Whatever this script is attatched to,
+    /// It is supposed to be at startMarker or near it.
+    /// From there it will go at [speed] until it reaches
+    /// end marker
+    /// </summary>
+    
+
+
+    public Transform startMarker;       //The Start Place
+    public Transform endMarker;         //Desination
+    public float speed = 1.0F;          //Speed
+    private float startTime;            //leave blank
+    private float journeyLength;        //leave blank
+
+
+    void Start()
+    {//On Start..
+        startTime = Time.time;      //startTime is the Time.time
+        journeyLength = Vector3.Distance(startMarker.position, endMarker.position); 
+        //the journeyLength is the Distance of startMarker and endMarker
+    }
+    void Update()
+    {//Every frame..
+        float distCovered = (Time.time - startTime) * speed;        //Get the DistCovered
+        float fracJourney = distCovered / journeyLength;            //Get the fracJourney
+        transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney); //gradually, get to endMarker
+    }
+}
