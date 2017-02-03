@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Resume : MonoBehaviour {
+    //apply to anything
+
+//this script is for helping you set up a pause menu.
+
+
+    public GameObject PauseMenu;        //the pause menu preferrably, a canvas.
+    public float CurrentScenesTimeScale; //The time scale of the current scene.
+
+    private void Update()
+    {
+            if(Input.GetKeyDown(KeyCode.Escape))
+        {//If "Esc" is pressed
+            Time.timeScale = 0f;        //Freeze timeScale
+            PauseMenu.active = true;    //Set the PauseMenu object to true;
+        }
+
+
+
+            if(PauseMenu.active = true)
+        {//If PauseMenu is active
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {   //then Escape is pressed
+                ResumeFunction();       //ResumeFunction
+            }
+        }
+    }
+
+    public void ResumeFunction()
+    {//for resuming
+        Time.timeScale = CurrentScenesTimeScale; //set the timeScale to the TimeScale that was set
+        PauseMenu.active = false;                //Disable the PauseMenu
+
+    }
+
+}
