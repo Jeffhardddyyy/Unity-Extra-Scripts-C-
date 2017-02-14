@@ -1,0 +1,90 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CursorLookAt : MonoBehaviour
+{
+    //Attatch the the player
+    //Make sure the player has rigidbody
+    //Disable all rotation for the player.
+    //This script :
+    //Enables PauseMenu,
+    //Has gameObject looking at the cursor
+
+    [Header("Options")]
+    public bool showCursor;     //should it show cursor?
+   
+    [Space]
+
+    [Header("PauseMenu")]                       //This is anything to do with the PauseMenu.
+    public GameObject PauseMenu;        //Game Object of the Pause Menu.
+
+    [Space]
+    [Header("Look At Cursor")]
+    public float Sensitivity;                       //How sensitive should the Camera be?
+
+
+    //private stuff
+
+private float tempTimeScale; // float called "tempTimeScale" that is the timeScale // for pausing
+    private bool isPaused;      //bool called "isPaused" that is using for making sure that the camera wont follow cursor after pausing
+
+    private void Start()
+    {//On Start..
+        if (showCursor == false)
+        {//..if the bool showCursor is false...
+            Cursor.visible = false;     //disable the cursor
+        }
+    }
+
+
+    private void Update()
+    {//Every frame,
+
+        //pause menu :
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {//...if Escape is pressed...
+
+            PauseMenu.active = !PauseMenu.active;       //set PauseMenu's active to whatever it's not already to. (if it's not active, active it. If active, inactive it.)
+
+
+
+
+            if (Time.timeScale == 0)
+            {//if the TimeScale is 0            //UNPAUSE
+                Time.timeScale = tempTimeScale;     //set the timeScale to the tempTimeScale
+            }
+
+            else
+            {//Else                                 //PAUSE
+                tempTimeScale = Time.timeScale; //the timeScale is to whatever the TimeScale is before pause
+                Time.timeScale = 0;                            //Set it to 0 (pausing)
+
+            }
+
+            if(showCursor == false)
+            {//if showCursor is false (meaning by default, don't show cursor)
+                Cursor.visible = !Cursor.visible;       //if the pause menu is enabled / disabled, whatever it is, make it to the correct one.
+                    //aka if the menu is open - cursor will be displayed
+                    //if the menu is closed - cursor won't be displayed
+            }
+
+            isPaused = !isPaused;       //isPaused will switch to whatever it isn't already (for looking at cursor staying on track)
+
+        }
+
+
+
+        //every frame
+        if(isPaused == false)
+        {//if isPaused is false...
+            //....look at cursor
+
+            float newRotationY = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * Sensitivity;     //temp float called newRotationY of the mouses  X positition times Sensitivity
+            float newRotationX = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * Sensitivity;     //temp float called newRotationX of the mouses Y position times Sensitivity
+            gameObject.transform.localEulerAngles = new Vector3(newRotationX, newRotationY, 0f);
+        }
+
+
+    }
+}
